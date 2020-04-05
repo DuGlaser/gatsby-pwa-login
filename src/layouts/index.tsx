@@ -1,6 +1,7 @@
 import * as React from "react";
 import Link from "gatsby-link";
 import Helmet from "react-helmet";
+import NavBar from "../components/nav-bar";
 
 import "./index.css";
 
@@ -28,15 +29,16 @@ const Header = () => (
         >
           Gatsby
         </Link>
+        <NavBar />
       </h1>
     </div>
   </div>
 );
 
 interface DefaultLayoutProps extends React.HTMLProps<HTMLDivElement> {
-  location: {
-    pathname: string;
-  };
+  // location: {
+  //   pathname: string;
+  // };
   children: any;
 }
 
