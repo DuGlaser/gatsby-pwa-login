@@ -1,5 +1,6 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { handleLogin } from "../services/auth";
+import { navigate } from "gatsby";
 
 interface INITIAL_STATE {
   email: string;
@@ -17,9 +18,11 @@ const useFormValidation = (
   useEffect(() => {
     if (isSubmitting) {
       const noErrors = Object.keys(errors).length === 0;
+      console.log({ noErrors });
       if (noErrors) {
         console.log(values.email, values.password);
         handleLogin(values);
+        // navigate(`/app/profile`);
         setIsSubmitting(false);
       } else {
         setIsSubmitting(false);

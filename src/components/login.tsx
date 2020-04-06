@@ -5,16 +5,12 @@ import { handleLogin, isLoggedIn } from "../services/auth";
 import validate from "../services/validate";
 import useFormValidation from "../hooks/useFormValidation";
 
-interface Props {
-  path: string;
-}
-
 const INITIAL_STATE = {
   email: "",
   password: "",
 };
 
-const Login: FunctionComponent<Props> = (path) => {
+const Login: FunctionComponent = () => {
   const {
     handleChange,
     handleSubmit,
@@ -23,6 +19,8 @@ const Login: FunctionComponent<Props> = (path) => {
     errors,
   } = useFormValidation(INITIAL_STATE, validate);
 
+  console.log(errors["email"]);
+
   if (isLoggedIn()) {
     navigate(`/app/profile`);
   } else {
@@ -30,30 +28,35 @@ const Login: FunctionComponent<Props> = (path) => {
       <>
         <h1>Log in</h1>
         <form
+          style={{ display: "flex", flexDirection: "column" }}
           method="post"
-          onSubmit={(event) => {
-            handleSubmit(event);
-            navigate(`/app/profile`);
-          }}
+          onSubmit={handleSubmit}
         >
           <label>
-            Username
+            email
             <input
               type="text"
-              name="username"
+              name="email"
+              className={errors["email"] && "error-input"}
               onChange={handleChange}
               onBlur={handleBlur}
             />
           </label>
+
+          {errors["email"] && <p className="error-text">{errors["email"]}</p>}
           <label>
             Password
             <input
               type="password"
               name="password"
+              className={errors["password"] && "error-input"}
               onChange={handleChange}
               onBlur={handleBlur}
             />
           </label>
+          {errors["password"] && (
+            <p className="error-text">{errors["password"]}</p>
+          )}
           <input type="submit" value="Log In" />
         </form>
       </>
