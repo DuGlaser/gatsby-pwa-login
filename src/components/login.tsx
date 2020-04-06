@@ -2,30 +2,26 @@ import React, { FunctionComponent, useState } from "react";
 import { RouteComponentProps } from "@reach/router";
 import { navigate } from "gatsby";
 import { handleLogin, isLoggedIn } from "../services/auth";
+import validate from "../services/validate";
+import useFormValidation from "../hooks/useFormValidation";
 
 interface Props {
   path: string;
 }
 
 const INITIAL_STATE = {
-  username: "",
+  email: "",
   password: "",
 };
 
 const Login: FunctionComponent<Props> = (path) => {
-  const [value, setValue] = useState(INITIAL_STATE);
-
-  const handleUpdate = (event: any) => {
-    setValue({
-      ...value,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    handleLogin(value);
-  };
+  const {
+    handleChange,
+    handleSubmit,
+    handleBlur,
+    values,
+    errors,
+  } = useFormValidation(INITIAL_STATE, validate);
 
   if (isLoggedIn()) {
     navigate(`/app/profile`);
@@ -42,11 +38,21 @@ const Login: FunctionComponent<Props> = (path) => {
         >
           <label>
             Username
-            <input type="text" name="username" onChange={handleUpdate} />
+            <input
+              type="text"
+              name="username"
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
           </label>
           <label>
             Password
-            <input type="password" name="password" onChange={handleUpdate} />
+            <input
+              type="password"
+              name="password"
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
           </label>
           <input type="submit" value="Log In" />
         </form>
