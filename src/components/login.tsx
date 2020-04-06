@@ -19,10 +19,9 @@ const Login: FunctionComponent = () => {
     errors,
   } = useFormValidation(INITIAL_STATE, validate);
 
-  console.log(errors["email"]);
-
   if (isLoggedIn()) {
     navigate(`/app/profile`);
+    return null;
   } else {
     return (
       <>
@@ -37,26 +36,24 @@ const Login: FunctionComponent = () => {
             <input
               type="text"
               name="email"
-              className={errors["email"] && "error-input"}
+              className={errors.email && "error-input"}
               onChange={handleChange}
               onBlur={handleBlur}
             />
           </label>
 
-          {errors["email"] && <p className="error-text">{errors["email"]}</p>}
+          {errors.email && <p className="error-text">{errors.email}</p>}
           <label>
             Password
             <input
               type="password"
               name="password"
-              className={errors["password"] && "error-input"}
+              className={errors.password && "error-input"}
               onChange={handleChange}
               onBlur={handleBlur}
             />
           </label>
-          {errors["password"] && (
-            <p className="error-text">{errors["password"]}</p>
-          )}
+          {errors.password && <p className="error-text">{errors.password}</p>}
           <input type="submit" value="Log In" />
         </form>
       </>

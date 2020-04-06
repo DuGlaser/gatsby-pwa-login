@@ -1,18 +1,14 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { handleLogin } from "../services/auth";
 import { navigate } from "gatsby";
-
-interface INITIAL_STATE {
-  email: string;
-  password: string;
-}
+import { FormInitialState, FormValidateError } from "../types/form";
 
 const useFormValidation = (
-  initialState: INITIAL_STATE,
+  initialState: FormInitialState,
   validation: CallableFunction
 ) => {
-  const [values, setValues] = useState(initialState);
-  const [errors, setErrors] = useState({});
+  const [values, setValues] = useState<FormInitialState>(initialState);
+  const [errors, setErrors] = useState<FormValidateError>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -22,8 +18,8 @@ const useFormValidation = (
       if (noErrors) {
         console.log(values.email, values.password);
         handleLogin(values);
-        // navigate(`/app/profile`);
         setIsSubmitting(false);
+        navigate(`/app/profile`);
       } else {
         setIsSubmitting(false);
       }
